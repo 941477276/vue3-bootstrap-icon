@@ -33,9 +33,9 @@
         <div class="text-muted">
           <!--最新版本：-->
           {{ $t('home.lastestVersion') }}
-          <a href="#" target="_blank">v{{ version }}</a>
+          <a href="https://www.npmjs.com/package/vue3-bootstrap-icon?activeTab=versions" target="_blank">v{{ version }}</a>
           <span class="dot-splitor">•</span>
-          <a href="#" target="_blank"><!--Github源码仓库-->{{ $t('home.githubStorage') }}</a>
+          <a href="https://github.com/941477276/vue3-bootstrap-icon" target="_blank"><!--Github源码仓库-->{{ $t('home.githubStorage') }}</a>
           <span class="dot-splitor">•</span>
           <!--Bootstrap Icon 版本:-->
           Bootstrap Icon {{ $t('version') }}

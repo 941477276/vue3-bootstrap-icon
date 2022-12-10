@@ -30,7 +30,7 @@
               </select>
             </li>
             <li class="nav-item icon-nav-item">
-              <a href="#" class="nav-link" target="_blank">
+              <a href="https://github.com/941477276/vue3-bootstrap-icon" class="nav-link" target="_blank">
                 <BsiGithub></BsiGithub>
               </a>
             </li>
