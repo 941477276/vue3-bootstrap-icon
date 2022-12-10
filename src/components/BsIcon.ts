@@ -52,7 +52,7 @@ export default defineComponent({
   },
   emits: ['click', 'dblclick'],
   setup (props: any, ctx: SetupContext) {
-    console.log('组件名称：', props.iconName);
+    // console.log('组件名称：', props.iconName);
     return () => {
       let iconName = props.iconName;
       return h('span', {

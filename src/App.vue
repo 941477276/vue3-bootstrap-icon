@@ -1,28 +1,46 @@
 <template>
-  <div class="app">
-    <div class="container">
-      <button type="button" @click="visibledIconType = 'outlined'">线框图标</button>
-      <button type="button" @click="visibledIconType = 'filled'">填充图标</button>
-      <ul class="icon-list">
-        <!--<li
-          class="icon-item"
-          v-for="iconInfo in (visibledIconType === 'outlined' ? outlinedIcons : filledIcons)"
-          :key="iconInfo.name">
-          <bs-icon
-            :icon-name="iconInfo.name"
-            :is-filled="iconInfo.isFilled"
-            :svg-v-dom="iconInfo.svgVDom[0]"></bs-icon>
-          <p class="icon-name">{{ iconInfo.name }}</p>
-        </li>-->
-        <li
-          class="icon-item"
-          v-for="iconName in (visibledIconType === 'outlined' ? outlinedIconsKey : filledIconsKey)"
-          :key="iconName">
-          <component :is="iconName" @click="onIconClick"></component>
-          <p class="icon-name">{{ iconName }}</p>
-        </li>
-      </ul>
-    </div>
+  <div class="app doc-app">
+    <header class="doc-header">
+      <nav class="navbar navbar-expand-lg navbar-light bg-primary">
+        <router-link class="navbar-brand" to="/home">
+          <BsiBootstrap></BsiBootstrap>
+          <BsiBootstrapFill></BsiBootstrapFill>
+        </router-link>
+        <!--<button class="navbar-toggler" type="button" data-toggle="collapse" aria-expanded="false"
+                aria-label="Toggle navigation">
+          <BsiThreeDots></BsiThreeDots>
+        </button>-->
+
+        <div class="navbar-container" id="navbarSupportedContent">
+          <ul class="navbar-nav">
+            <li class="nav-item" :class="{active: $route.path == '/' || $route.path == '/home' }">
+              <router-link class="nav-link" to="/home"><!--首页-->{{$t('nav.home')}}</router-link>
+            </li>
+            <li class="nav-item" :class="{active: $route.path == '/customized' }">
+              <router-link class="nav-link" to="/customized"><!--自定义图标-->{{$t('nav.customized')}}</router-link>
+            </li>
+          </ul>
+          <ul class="navbar-nav ml-auto">
+            <li class="nav-item lang-nav-item">
+              <select
+                v-model="currentLang"
+                class="form-control form-control-sm">
+                <option value="cn">简体中文</option>
+                <option value="en">English</option>
+              </select>
+            </li>
+            <li class="nav-item icon-nav-item">
+              <a href="#" class="nav-link" target="_blank">
+                <BsiGithub></BsiGithub>
+              </a>
+            </li>
+          </ul>
+        </div>
+      </nav>
+    </header>
+    <main class="main">
+      <router-view></router-view>
+    </main>
   </div>
 </template>
 
@@ -30,137 +48,76 @@
 import {
   SetupContext,
   ref,
-  defineComponent
+  defineComponent,
+  onMounted,
+  watch,
+  provide,
+  nextTick
 } from 'vue';
-// import BsIcon from '@/components/BsIcon';
-// import BsiActivity from '@/icons/BsiActivity';
-// import * as bsiIcons from '@/icons';
-import * as bsiIcons from '../lib/es';
-// import { BsIcon } from '../lib/es/index';
-// import html2vDom from '../lib/es/html2vDom.js';
-// const html2vDom2 = require('../lib/lib/html2vDom.js');
-
-console.log(bsiIcons);
-// console.log('html2vDom', html2vDom, html2vDom2);
-// console.log(html2vDom('<div id="aa">一个地v</div>'));
-// console.log(html2vDom2('<div id="aa">一个地v</div>'));
+// import BsiThreeDots from '@/icons/BsiThreeDots';
+import { BsiGithub } from '@/icons/BsiGithub';
+import { BsiBootstrap } from '@/icons/BsiBootstrap';
+import BsiBootstrapFill from '@/icons/BsiBootstrapFill';
+import { useI18n } from 'vue-i18n';
+import { loadLocalMessages, setI18nLanguage } from '@/docs/lang';
 
 export default defineComponent({
   name: 'App',
-  /* eslint-disable */
   components: {
-    // BsIcon,
-    ...bsiIcons
+    // BsiThreeDots,
+    BsiGithub,
+    BsiBootstrap,
+    BsiBootstrapFill
   },
   setup () {
-    /* const filledIconContext = require.context('../svg/filled', true, /\.js$/);
-    let filledIconInfos = filledIconContext.keys().reduce((result, path: string) => {
-      // console.log(filledIconContext(path));
-      result.push(filledIconContext(path));
-      return result;
-    }, [] as any[]);
+    let i18n = useI18n();
+    console.log('i18n2', i18n);
 
-    const outlinedIconContext = require.context('../svg/outlined', true, /\.js$/);
-    let outlinedIconInfos = outlinedIconContext.keys().reduce((result, path: string) => {
-      // console.log(outlinedIconContext(path));
-      result.push(outlinedIconContext(path));
-      return result;
-    }, [] as any[]);
-
-    // console.log('filledIconInfos', filledIconInfos);
-    // console.log('outlinedIconInfos', outlinedIconInfos);
-    let filledIcons = ref([...filledIconInfos]);
-    let outlinedIcons = ref([...outlinedIconInfos]); */
-    let filledIconsKey: string[] = [];
-    let outlinedIconsKey: string[] = [];
-    Object.keys(bsiIcons).forEach(key => {
-      if (key === 'BsIcon') {
-        return;
-      }
-      if (key.endsWith('Fill')) {
-        filledIconsKey.push(key);
+    let langChangeEvents: any[] = [];
+    let currentLang = ref(i18n.locale.value);
+    watch(currentLang, function (newLang) {
+      let doLangChangeEvents = function () {
+        nextTick(function () {
+          langChangeEvents.forEach(handler => {
+            try {
+              handler();
+            } catch (e) {
+              console.error(e);
+            }
+          });
+        });
+      };
+      if (i18n.availableLocales.includes(newLang)) {
+        setI18nLanguage(newLang);
+        doLangChangeEvents();
       } else {
-        outlinedIconsKey.push(key);
+        loadLocalMessages(newLang).then(() => {
+          setI18nLanguage(newLang);
+          doLangChangeEvents();
+        });
       }
     });
-    let visibledIconType = ref('outlined');
-    return {
-      // filledIcons,
-      // outlinedIcons,
-      filledIconsKey,
-      outlinedIconsKey,
-      visibledIconType,
 
-      onIconClick (evt: MouseEvent) {
-        console.log('组件点击了', evt);
+    provide('appInjection', {
+      addLangChangeEvent (handler: () => void) {
+        langChangeEvents.push(handler);
+      },
+      removeLangChangeEvent (handler: () => void) {
+        // langChangeEvents.push(handler());
+        let index = langChangeEvents.findIndex(item => item === handler);
+        if (index > -1) {
+          langChangeEvents.splice(index, 1);
+        }
       }
+    });
+
+    return {
+      currentLang
     };
   }
 });
 </script>
 
 <style lang="scss">
-.box{
-  padding: 20px;
-}
-.container{
-  max-width: 1200px;
-  margin: 0 auto;
-}
-.icon-list{
-  display: flex;
-  flex-wrap: wrap;
-  padding: 0;
-  margin: 0;
-  font-size: 2em;
-  li{
-    width: 16.6%;
-    flex: 0 0 16.6%;
-    padding: 15px 8px;
-    margin: 0;
-    list-style: none;
-    text-align: center;
-    transition: all .3s;
-    box-sizing: border-box;
-    /* 让渲染性能提高的一个css属性，设置该属性后元素的子元素在未出现在视口的情况下不会渲染 */
-    content-visibility: auto;
-    /* 给未渲染子元素的元素设置一个高度，否则会造成浏览器滚动条抖动 */
-    contain-intrinsic-size: 108px;
-    &:hover{
-      color: #fff;
-      background-color: #007bff;
-    }
-    svg{
-      transition: color .1s;
-    }
-  }
-  .icon-name{
-    margin: 10px 0 0 0;
-    font-size: 1rem;
-  }
-}
-@media (max-width: 980px) {
-  .icon-list{
-    li {
-      width: 20%;
-      flex: 0 0 20%;
-    }
-  }
-}
-@media (max-width: 768px) {
-  .icon-list{
-    li {
-      width: 33%;
-      flex: 0 0 33%;
-    }
-  }
-}
-@media (max-width: 500px) {
-  .icon-list{
-    li {
-      width: 50%;
-      flex: 0 0 50%;
-    }
-  }
-}
+@import "app";
 </style>

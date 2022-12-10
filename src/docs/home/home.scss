@@ -1,0 +1,126 @@
+
+.introduce{
+  padding-top: 2.5rem;
+  margin-bottom: 1.5rem;
+}
+.introduce-img{
+  max-width: 350px;
+}
+.introduce-jumbotron{
+  .jumbotron-title{
+    margin-bottom: 1rem;
+    font-weight: bold;
+  }
+  .lead{
+    margin-bottom: 0.5rem;
+  }
+}
+.install-code{
+  display: inline-block;
+  padding: 0.625rem 1rem;
+  background-color: #f3f3f3;
+  //font-size: 0.875rem;
+  color: #000000d8;
+  font-weight: bold;
+}
+.dot-splitor{
+  margin: 0 0.5rem;
+}
+.code-and-example{
+  .example{
+    line-height: 1;
+    margin-bottom: 1rem;
+    font-size: 2rem;
+    .bs-icon + .bs-icon{
+      margin-left: 1rem;
+    }
+  }
+}
+
+.usage-guide{
+  margin-bottom: 2rem;
+}
+
+.operate-area{
+  display: flex;
+  flex-wrap: wrap;
+  margin-bottom: 1rem;
+}
+.search-icon-input{
+  width: auto;
+  min-width: 300px;
+  margin-left: auto;
+}
+
+.icon-list-box{
+  margin-bottom: 2rem;
+}
+.icon-list{
+  display: flex;
+  flex-wrap: wrap;
+  padding: 0;
+  margin: 0;
+  max-height: 100vh;
+  overflow-y: auto;
+  list-style: none;
+  li{
+    width: 16.6%;
+    flex: 0 0 16.6%;
+    text-align: center;
+    padding: 1rem;
+    color: #666;
+    transition: all .3s;
+    &:hover{
+      color: #fff;
+      background-color: var(--bs-primary);
+    }
+  }
+  .bs-icon{
+    font-size: 2rem;
+  }
+  .icon-name{
+    margin-bottom: 0;
+    margin-top: 0.875rem;
+    font-size: 0.875rem;
+  }
+}
+
+@media (max-width: 992px) {
+  .introduce-img{
+    margin: 0 auto;
+  }
+  .icon-list {
+    li {
+      width: 25%;
+      flex: 0 0 25%;
+    }
+  }
+}
+
+@media (max-width: 768px) {
+  .icon-list {
+    li {
+      width: 33.3%;
+      flex: 0 0 33.3%;
+    }
+  }
+}
+
+@media (max-width: 520px) {
+  .introduce-img{
+    display: none;
+  }
+  .icon-list {
+    li {
+      width: 50%;
+      flex: 0 0 50%;
+    }
+  }
+  .operate-area{
+    display: block;
+  }
+  .search-icon-input{
+    margin-left: 0;
+    margin-top: 1rem;
+  }
+}
