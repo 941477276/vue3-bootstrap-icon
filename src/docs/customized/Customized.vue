@@ -8,7 +8,7 @@
       </i18n-t>
       <ol>
         <!--<li>使用vue3-bootstrap-icon提供的<code>BsIcon</code>组件</li>-->
-        <i18n-t keypath="customized.custmizeWay1">
+        <i18n-t keypath="customized.custmizeWay1" tag="li">
           <template #bsicon><code>BsIcon</code></template>
         </i18n-t>
         <li><!--使用vue3-bootstrap-icon提供的生成工具-->{{$t('customized.custmizeWay2')}}</li>
@@ -48,7 +48,7 @@ export function TestIcon4CircleFill () {
 }
 </pre>
       <h2><!--使用vue3-bootstrap-icon生成工具生成自定义图标-->{{$t('customized.usageGuide2Title')}}</h2>
-      <!--假设我们的项目目录结构是这样的：-->{{$t('customized.usageGuide2Title')}}
+      <!--假设我们的项目目录结构是这样的：-->{{$t('customized.supposeProjectDirStructure')}}
 <pre class="language-markup">
   a-test-project
     + node_modules

@@ -96,3 +96,11 @@ pre[class*="language-"]:after{
     }
   }
 }
+
+@media (max-width: 520px) {
+  .doc-header{
+    .navbar{
+      font-size: 0.875rem;
+    }
+  }
+}
