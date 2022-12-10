@@ -25,7 +25,7 @@ A free and open-source icon component library for Bootstrap icons based on `vue3
   import { BsiGithub } from 'vue3-bootstrap-icon/icons/BsiGithub';
 </script>
 ```
-[Documentation and Examples](https://941477276.github.io/bootstrap-icon-vue/dist/)
+[Documentation and Examples](https://941477276.github.io/vue3-bootstrap-icon/dist/)
 
 ## Component props
 
