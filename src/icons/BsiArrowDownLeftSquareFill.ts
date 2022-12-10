@@ -1,0 +1,27 @@
+// this file is generate by ../../scripts/generate.js
+// do not edit manually
+
+import {
+  FunctionalComponent,
+  createVNode
+} from 'vue';
+import BsIcon, { BsIconProps } from '../components/BsIcon';
+
+export interface BsiArrowDownLeftSquareFillType extends FunctionalComponent<BsIconProps> {
+  displayName: string;
+};
+
+// define icon component
+const BsiArrowDownLeftSquareFill: BsiArrowDownLeftSquareFillType = function (props, ctx) {
+  return createVNode(BsIcon, {
+    ...props,
+    // ...ctx.attrs,
+    iconName: 'arrow-down-left-square-fill',
+    isFilled: true,
+    viewBox: props.viewBox || '0 0 16 16',
+    svgChildrenVDom: [{"nodeName":"path","nodeType":1,"attrs":{"d":"M2 16a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H2zm8.096-10.803L6 9.293V6.525a.5.5 0 0 0-1 0V10.5a.5.5 0 0 0 .5.5h3.975a.5.5 0 0 0 0-1H6.707l4.096-4.096a.5.5 0 1 0-.707-.707z"},"children":[]}]
+  });
+};
+BsiArrowDownLeftSquareFill.displayName = 'BsiArrowDownLeftSquareFill';
+export default BsiArrowDownLeftSquareFill;
+export { BsiArrowDownLeftSquareFill };

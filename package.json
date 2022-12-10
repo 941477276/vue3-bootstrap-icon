@@ -1,0 +1,70 @@
+{
+  "name": "vue3-bootstrap-icon",
+  "description": "A free and open-source icon component library for Bootstrap icons based on `vue3`, all icons are from [Bootstrap official icon library](https://github.com/twbs/icons)",
+  "version": "1.0.0",
+  "license": "MIT",
+  "private": false,
+  "author": "拾晚霞",
+  "scripts": {
+    "serve": "npm run copy-svgs && npm run generate-icons && vue-cli-service serve",
+    "build": "vue-cli-service build",
+    "lint": "vue-cli-service lint",
+    "copy-svgs": "node ./scripts/copy-svgs.js",
+    "generate-icons": "node ./scripts/generate-icons.js",
+    "build-icons-all": "node ./scripts/build.js",
+    "build-icons-esm": "node ./scripts/build.js --format esm",
+    "build-icons-cjs": "node ./scripts/build.js --format cjs"
+  },
+  "main": "lib/lib/icons/index.js",
+  "module": "lib/es/index.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/941477276/vue3-bootstrap-icon.git"
+  },
+  "homepage": "https://github.com/941477276/vue3-bootstrap-icon#readme",
+  "dependencies": {},
+  "devDependencies": {
+    "@babel/core": "^7.0.0-bridge.0",
+    "@babel/preset-env": "^7.19.4",
+    "@babel/preset-typescript": "^7.18.6",
+    "@typescript-eslint/eslint-plugin": "^4.18.0",
+    "@typescript-eslint/parser": "^4.18.0",
+    "@vue/babel-preset-app": "^5.0.8",
+    "@vue/cli-plugin-eslint": "~4.5.13",
+    "@vue/cli-plugin-typescript": "~4.5.13",
+    "@vue/cli-service": "~4.5.13",
+    "@vue/compiler-sfc": "^3.0.0",
+    "@vue/eslint-config-standard": "^5.1.2",
+    "@vue/eslint-config-typescript": "^7.0.0",
+    "babel-core": "^7.0.0-bridge.0",
+    "babel-loader": "^7.1.5",
+    "bootstrap": "^5.2.3",
+    "bootstrap-icons": "^1.10.2",
+    "esbuild": "^0.15.15",
+    "esbuild-plugin-vue": "^0.2.4",
+    "eslint": "^6.7.2",
+    "eslint-plugin-import": "^2.20.2",
+    "eslint-plugin-node": "^11.1.0",
+    "eslint-plugin-promise": "^4.2.1",
+    "eslint-plugin-standard": "^4.0.0",
+    "eslint-plugin-vue": "^7.0.0",
+    "node-sass": "^7.0.1",
+    "sass": "^1.49.9",
+    "sass-loader": "^10.2.1",
+    "typescript": "~4.1.5",
+    "vue": "^3.2.31",
+    "webpack": "^4.46.0"
+  },
+  "keywords": [
+    "vue3",
+    "vue3 icon",
+    "bootstrap",
+    "bootstrap icon"
+  ],
+  "files": [
+    "lib",
+    "README.md",
+    "README-CN.md",
+    "package.json"
+  ]
+}

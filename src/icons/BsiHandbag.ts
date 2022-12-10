@@ -1,0 +1,27 @@
+// this file is generate by ../../scripts/generate.js
+// do not edit manually
+
+import {
+  FunctionalComponent,
+  createVNode
+} from 'vue';
+import BsIcon, { BsIconProps } from '../components/BsIcon';
+
+export interface BsiHandbagType extends FunctionalComponent<BsIconProps> {
+  displayName: string;
+};
+
+// define icon component
+const BsiHandbag: BsiHandbagType = function (props, ctx) {
+  return createVNode(BsIcon, {
+    ...props,
+    // ...ctx.attrs,
+    iconName: 'handbag',
+    isFilled: false,
+    viewBox: props.viewBox || '0 0 16 16',
+    svgChildrenVDom: [{"nodeName":"path","nodeType":1,"attrs":{"d":"M8 1a2 2 0 0 1 2 2v2H6V3a2 2 0 0 1 2-2zm3 4V3a3 3 0 1 0-6 0v2H3.36a1.5 1.5 0 0 0-1.483 1.277L.85 13.13A2.5 2.5 0 0 0 3.322 16h9.355a2.5 2.5 0 0 0 2.473-2.87l-1.028-6.853A1.5 1.5 0 0 0 12.64 5H11zm-1 1v1.5a.5.5 0 0 0 1 0V6h1.639a.5.5 0 0 1 .494.426l1.028 6.851A1.5 1.5 0 0 1 12.678 15H3.322a1.5 1.5 0 0 1-1.483-1.723l1.028-6.851A.5.5 0 0 1 3.36 6H5v1.5a.5.5 0 1 0 1 0V6h4z"},"children":[]}]
+  });
+};
+BsiHandbag.displayName = 'BsiHandbag';
+export default BsiHandbag;
+export { BsiHandbag };
