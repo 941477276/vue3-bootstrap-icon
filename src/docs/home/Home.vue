@@ -66,9 +66,11 @@
     /* // {{ $t('home.comment1') }}<!--不推荐使用这种方式导入，因为库中有上千个图标组件，即有上千模块，在开发的时候webpack会把这-->
     // {{ $t('home.comment2') }}<!--上千个模块都加载进去，这会导致webpack热更新速度变慢-->
     // import { BsiBootstrap } from 'vue3-bootstrap-icon'; */
-    import { BsiBootstrap } from 'vue3-bootstrap-icon/icons/BsiBootstrap';
+    import { BsiBootstrap } from 'vue3-bootstrap-icon/es/icons/BsiBootstrap';
     // <!--图标组件名称也是组件文件名称-->{{$t('home.iconNameIsTheComponentName')}}
-    import { BsiGithub } from 'vue3-bootstrap-icon/icons/BsiGithub';
+    import { BsiGithub } from 'vue3-bootstrap-icon/es/icons/BsiGithub';
+    // use require
+    const Bsi1Square = require('vue3-bootstrap-icon/cjs/icons/Bsi1Square').default;
   &lt;/script&gt;
 </pre>
       </div>
