@@ -35,12 +35,16 @@ function build (options = {}) {
   }
   let extNameIncludes = ['.js', '.ts', '.jsx', '.tsx'];
   let newEntryPoints = [];
-  if (description) {
-    console.log(`【${description}】构建中...`);
-  }
+  console.log(`【${description || '组件'}】构建中...`);
+  let tsDeclarationFilePaths = [];
   entryPoints.forEach(entry => {
     if (fs.statSync(entry).isDirectory()) {
       fs.readdirSync(entry).forEach(fileName => {
+        let entryPoint = path.resolve(entry, fileName);
+        if (fileName.endsWith('.d.ts')){
+          tsDeclarationFilePaths.push(entryPoint);
+          return;
+        }
         let flag = extNameIncludes.some(extName => {
           return fileName.endsWith(extName);
         });
@@ -54,6 +58,10 @@ function build (options = {}) {
         newEntryPoints.push(path.resolve(entry, fileName));
       });
     } else {
+      if (entry.endsWith('.d.ts')){
+        tsDeclarationFilePaths.push(entry);
+        return;
+      }
       newEntryPoints.push(entry);
     }
   });
@@ -104,9 +112,18 @@ function build (options = {}) {
       }
     ]
   });
-  if (description) {
-    console.log(`【${description}】构建完成...`);
+  if (tsDeclarationFilePaths.length > 0 && outdir) {
+    console.log('ts类型定义文件复制中...');
+    tsDeclarationFilePaths.forEach(filePath => {
+      let fileName = path.parse(filePath).name;
+      /*if (!sourceFileDir) {
+        return;
+      }*/
+      utils.copy(filePath, outdir + '/' + fileName + '.ts');
+    });
+    console.log('ts类型定义文件复制完成');
   }
+  console.log(`【${description || '组件'}】构建完成!`);
 }
 
 function buildIcon (format) {
@@ -120,7 +137,7 @@ function buildIcon (format) {
     console.log(`[${format}] is not allowed!`);
     return;
   }
-  let outdirParent = format == 'esm' ? 'es' : 'lib';
+  let outdirParent = format == 'esm' ? 'es' : 'cjs';
   // 构建 /src/components 目录下的组件
   build({
     format: format,
@@ -174,6 +191,13 @@ function buildIcon (format) {
     utils.copy(path.resolve(__dirname, 'html2vDom.js'), path.resolve(targetDir, 'html2vDom.js'));
   };
 
+  // 复制文件
+  let copyNecessaryFiles = function () {
+    utils.copy(path.resolve(__dirname, '../package.json'), path.resolve(targetDir, 'package.json'));
+    utils.copy(path.resolve(__dirname, '../README.md'), path.resolve(targetDir, 'README.md'));
+    utils.copy(path.resolve(__dirname, '../README-CN.md'), path.resolve(targetDir, 'README-CN.md'));
+  }
+
   let buildIconPlugin = esbuildSetExternalPlugin(function (path, namespace) {
     let importer = namespace.importer;
     // 所有从 components 目录中导入的模块都视为external(除css外)
@@ -217,6 +241,7 @@ function buildIcon (format) {
       }
       generateHtml2vDomFile();
       generateCustomGenUtilFile();
+      copyNecessaryFiles();
     }
   });
 }

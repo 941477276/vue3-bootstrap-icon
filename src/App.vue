@@ -34,8 +34,8 @@ import {
 } from 'vue';
 // import BsIcon from '@/components/BsIcon';
 // import BsiActivity from '@/icons/BsiActivity';
-// import * as bsiIcons from '@/icons';
-import * as bsiIcons from '../lib/es';
+import * as bsiIcons from '@/icons';
+// import * as bsiIcons from '../lib/es';
 // import { BsIcon } from '../lib/es/index';
 // import html2vDom from '../lib/es/html2vDom.js';
 // const html2vDom2 = require('../lib/lib/html2vDom.js');

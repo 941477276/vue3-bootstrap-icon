@@ -5,6 +5,7 @@ const {
   deleteFolder,
   mkdir
 } = require('./utils');
+const nodeCMD = require("node-cmd");
 
 // 构建图标组件
 function generateIcons () {
@@ -16,7 +17,7 @@ function generateIcons () {
   const bootstrapIconsVersion = require('bootstrap-icons/package.json').version;
   let iconsVersionPath = path.resolve(targetIconsRootDir, 'version.json');
   // 构建时的版本
-  let iconsVersion = fs.existsSync(iconsVersionPath) ? require(iconsVersionPath) : null;
+  let iconsVersion = fs.existsSync(iconsVersionPath) ? require(iconsVersionPath).version : null;
 
   let bootstrapIconsVersionPath = path.resolve(targetSvgRootDir, 'bootstrap-icons-version.json');
   let localBootstrapIconsVersion = fs.existsSync(bootstrapIconsVersionPath) ? require(bootstrapIconsVersionPath).version : '';
@@ -79,7 +80,13 @@ ${iconsIndexContent.join('')}`.trim());
   // 写入构建时的bootstrap版本
   writeFileSync(iconsVersionPath, JSON.stringify({
     version: bootstrapIconsVersion
-  }, null, 2))
+  }, null, 2));
+
+  console.log('生成ts类型定义文件中...');
+  // 生成组件ts定义类型文件
+  nodeCMD.runSync(`cd ${path.resolve(__dirname, '../src/icons')} && tsc --declaration --emitDeclarationOnly`);
+  console.log('ts类型定义文件生成完成...');
+
   console.log('图标组件构建完成！---------------');
 };
 
