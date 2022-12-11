@@ -1,7 +1,7 @@
 {
   "name": "vue3-bootstrap-icon",
   "description": "A free and open-source icon component library for Bootstrap icons based on `vue3`, all icons are from [Bootstrap official icon library](https://github.com/twbs/icons)",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "license": "MIT",
   "private": false,
   "author": "拾晚霞",
