@@ -150,9 +150,13 @@ function buildIcon (format) {
     plugins: esbuildSetExternalPlugin(function (path, namespace) {
       // console.log('path', path);
       // console.log(namespace);
-      // 所有从 components 目录中导入的模块都视为external(除css外)
-      return namespace.importer.includes('/components/') && !path.endsWith('.css') && namespace.kind === 'import-statement';
-    })
+      // 所有从 components 目录中导入的模块或导入的模块路径是相对路径的都视为external
+      return (namespace.importer.includes('/components/') && namespace.kind === 'import-statement') || namespace.path.startsWith('./');
+    }),
+    onEnd () {
+      // 复制 bs-icon.css 到目标目录中
+      utils.copy(path.resolve(__dirname, '../src/components/bs-icon.css'), path.resolve(targetDir, outdirParent + '/components/bs-icon.css'));
+    }
   });
 
   // 生成入口文件
