@@ -51,6 +51,7 @@ export default defineComponent({
     }
   },
   emits: ['click', 'dblclick'],
+  // @ts-ignore
   setup (props: any, ctx: SetupContext) {
     console.log('组件名称：', props.iconName);
     return () => {
@@ -79,10 +80,10 @@ export default defineComponent({
 });
 
 export interface BsIconProps {
-  width: string;
-  height: string;
-  fill: string;
-  viewBox: string;
-  ariaHidden: boolean;
-  focusable: boolean;
+  width?: string;
+  height?: string;
+  fill?: string;
+  viewBox?: string;
+  ariaHidden?: boolean;
+  focusable?: boolean;
 }
