@@ -16,7 +16,8 @@ function build (options = {}) {
     description,
     loader,
     onEnd,
-    exclude
+    exclude,
+    copyTsDeclarationFile
   } = options;
   /* if (!outdir && !outfile) {
     outdir = targetDir;
@@ -112,7 +113,7 @@ function build (options = {}) {
       }
     ]
   });
-  if (tsDeclarationFilePaths.length > 0 && outdir) {
+  if (tsDeclarationFilePaths.length > 0 && outdir && copyTsDeclarationFile) {
     console.log('ts类型定义文件复制中...');
     tsDeclarationFilePaths.forEach(filePath => {
       let fileName = path.parse(filePath).name;
@@ -144,6 +145,7 @@ function buildIcon (format) {
     description: 'components组件',
     outdir: path.resolve(targetDir, outdirParent + '/components'),
     useExternalPlugin: true,
+    copyTsDeclarationFile: true,
     entryPoints: path.resolve(__dirname, '../src/components'),
     plugins: esbuildSetExternalPlugin(function (path, namespace) {
       // console.log('path', path);
@@ -196,7 +198,7 @@ function buildIcon (format) {
     utils.copy(path.resolve(__dirname, '../package.json'), path.resolve(targetDir, 'package.json'));
     utils.copy(path.resolve(__dirname, '../README.md'), path.resolve(targetDir, 'README.md'));
     utils.copy(path.resolve(__dirname, '../README-CN.md'), path.resolve(targetDir, 'README-CN.md'));
-  }
+  };
 
   let buildIconPlugin = esbuildSetExternalPlugin(function (path, namespace) {
     let importer = namespace.importer;
@@ -204,14 +206,16 @@ function buildIcon (format) {
     // 将 icons 目录也排除是因为在打包cjs格式时index.ts中引入了icons目录下的图标，因此也需要将其排除
     return (path.includes('/components/') || importer.includes('/components/') || importer.includes('/icons/')) && namespace.kind === 'import-statement';
   });
+
   // 构建图标目录下的组件
+  let iconsDir = path.resolve(__dirname, '../src/icons');
   build({
     format: format,
     description: 'icon图标组件',
     outdir: path.resolve(targetDir, outdirParent + '/icons'),
     useExternalPlugin: true,
     exclude: [format === 'esm' ? 'index.ts' : ''], // index.ts不进行构建，直接复制并改后缀名为 .js 即可
-    entryPoints: path.resolve(__dirname, '../src/icons'),
+    entryPoints: iconsDir,
     plugins: buildIconPlugin,
     onEnd () {
       if (format === 'esm') {
@@ -242,6 +246,28 @@ function buildIcon (format) {
       generateHtml2vDomFile();
       generateCustomGenUtilFile();
       copyNecessaryFiles();
+
+      // 生成统一的ts类型文件
+      let tscFileContents = [`
+// this file is generate by ../../scripts/build.js
+// do not edit manually
+
+import {
+  FunctionalComponent,
+  createVNode
+} from 'vue';
+import BsIcon, { BsIconProps } from '../es/components/BsIcon';`];
+      fs.readdirSync(iconsDir).forEach(fileName => {
+        let { name } = path.parse(fileName);
+        name = name.split('.')[0];
+        let declareContent = `
+export interface ${name}Type extends FunctionalComponent<BsIconProps> {
+  displayName: string;
+};
+declare const ${name}: ${name}Type;`;
+        tscFileContents.push(declareContent);
+      });
+      utils.writeFileSync(path.resolve(targetDir, 'types/component.d.ts'), tscFileContents.join('\r\n'));
     }
   });
 }

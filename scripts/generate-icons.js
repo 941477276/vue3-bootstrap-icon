@@ -84,7 +84,7 @@ ${iconsIndexContent.join('')}`.trim());
 
   console.log('生成ts类型定义文件中...');
   // 生成组件ts定义类型文件
-  nodeCMD.runSync(`cd ${path.resolve(__dirname, '../src/icons')} && tsc --declaration --emitDeclarationOnly`);
+  nodeCMD.runSync(`tsc --declaration --emitDeclarationOnly`);
   console.log('ts类型定义文件生成完成...');
 
   console.log('图标组件构建完成！---------------');

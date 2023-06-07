@@ -3,6 +3,9 @@ node_modules
 dist
 lib
 package-lock.json
+*.d.ts
+svg
+src/icons
 
 # local env files
 .env.local
